@@ -17,4 +17,9 @@ public class HelloController {
     public String say() {
         return "Hello world!";
     }
+
+    @RequestMapping("/name")
+    public String showName() {
+        return "黄宇";
+    }
 }
