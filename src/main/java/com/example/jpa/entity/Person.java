@@ -1,9 +1,6 @@
 package com.example.jpa.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * desc:
@@ -19,13 +16,14 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column(length = 20,unique = true,nullable = false)
     private String name;
 
     private int age;
 
     private String address;
 
-    public Person() {};
+    public Person() {}
 
     public Person(String name, int age, String address) {
         this.name = name;
