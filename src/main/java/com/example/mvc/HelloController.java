@@ -8,8 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * desc:
@@ -26,22 +29,16 @@ public class HelloController {
     private PersonRepository personRepository;
 
     @RequestMapping("/name")
-    public String getName() {
-        personRepository.save(new Person("hy",23,"hz"));
-        System.out.println(personRepository.findByName("hy"));
-        Person p1 = new Person("p1",23,"beijing");
-        Person p2 = new Person("p2",23,"beijing");
-        Person p3 = new Person("p3",23,"beijing");
-        Person p4 = new Person("p4",23,"beijing");
-        Person p5 = new Person("p5",23,"beijing");
-        List<Person> list = Arrays.asList(p1,p2,p3,p4,p5);
-
-        personRepository.saveAll(list);
-
-        System.out.println(personRepository.findAll().size());
-        personRepository.delete(p2);
-        System.out.println(personRepository.findAll().size());
-        System.out.println(personRepository.findByName("p4"));
+    public String getName(HttpSession session) {
+        Enumeration<String> attributeNames = session.getAttributeNames();
+        if (session.getAttribute("uuid") == null) {
+            session.setAttribute("uuid", UUID.randomUUID().toString());
+        }
+        log.info(session.toString());
+        while (attributeNames.hasMoreElements()) {
+            String s = attributeNames.nextElement();
+            log.info("session => " + s + session.getAttribute(s));
+        }
         return "Hello";
     }
 
